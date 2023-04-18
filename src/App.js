@@ -1,11 +1,12 @@
-import './App.css';
+import './App.css'
+import { StartScreen } from './Components/StartScreen'
 
 function App() {
   return (
     <div className="App">
-      <h2>Secret Word</h2>
+      <StartScreen />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
