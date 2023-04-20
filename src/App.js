@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 import { useState } from 'react'
 import './App.css'
 import { StartScreen } from './Components/StartScreen'
@@ -19,7 +20,7 @@ function App() {
   const [letters, setLetters] = useState([])
 
   const [guessedLetters, setGuessedLetters] = useState([])
-  const [wrongLetters, setWrongLetters] = useState()
+  const [wrongLetters, setWrongLetters] = useState([])
   const [guesses, setGuesses] = useState(3)
   const [score, setScore] = useState(0)
 
@@ -41,9 +42,9 @@ function App() {
     const { word, category } = pickWordCategory()
 
     //create an array of letter
-    let wordLetters = word.split("");
+    let wordLetters = word.split('')
 
-    wordLetters = wordLetters.map((l) => l.toLowerCase());
+    wordLetters = wordLetters.map((l) => l.toLowerCase())
     setPickedCategory(category)
     setPickedWord(word)
     setLetters(wordLetters)
@@ -51,8 +52,35 @@ function App() {
   }
 
   //process the letter input
-  const verifyLetter = () => {
-    // setGameStage(stages[2].name)
+  const verifyLetter = (letter) => {
+    const normalizedLetter = letter.toString().toLowerCase();
+
+    //check if letter has already been utilized
+    if (
+      guessedLetters && guessedLetters.includes(normalizedLetter) ||
+      wrongLetters && wrongLetters.includes(normalizedLetter)
+    ) {
+      return;
+    }
+    
+    
+
+    //push guessed letter or remove a chance
+    if (letters && letters.includes(normalizedLetter)) {
+      setGuessedLetters((actualGuessedLetters) => [
+        ...actualGuessedLetters,
+        letter,
+      ])
+    } else {
+      console.log("erro")
+      setWrongLetters((actualWrongLetters) => [
+        ...actualWrongLetters,
+        normalizedLetter,
+      ]);
+
+      setGuesses((actualGuesses) => actualGuesses - 1);
+    }
+    
   }
 
   //restarts the game

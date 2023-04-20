@@ -55,24 +55,12 @@ const Game = ({
           />
           <button>Jogar!</button>
           </form>
-        {/* <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="letter"
-            maxLength="1"
-            onChange={(e) => setLetter(e.target.value)}
-            required
-            value={letter}
-            ref={letterInputRef}
-          />
-          <button>Jogar</button>
-        </form> */}
       </div>
       <div className="wrongLettersContainer">
         <p>Letras já utilizadas:</p>
-        {wrongLetters &&
-          wrongLetters.map((letter, i) => <span key={i}>{letter}, </span>)}
-        <span>a</span>
+        {wrongLetters && wrongLetters.map((letter, i) => (
+          <span key={i}>{letter}, </span>
+        ))}
       </div>
     </div>
   )
