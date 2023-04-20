@@ -1,4 +1,5 @@
 import React from 'react'
+import './styles.css'
 
 const Game = ({ verifyLetter }) => {
   return (
@@ -7,14 +8,14 @@ const Game = ({ verifyLetter }) => {
         <span>Pontuação: 000</span>
       </p>
       <h1>Adivinhe a palavra</h1>
-      <h3>
+      <h3 className='tip'>
         Diga sobre a palavra: <span>Diga...</span>
       </h3>
       <div className="wordContainer">
         <span className="letter">A</span>
         <span className="blankSquare"></span>
       </div>
-      <div className="blankSquare">
+      <div className="letterContainer">
         <p>Tente adivinhar uma letra da palavra</p>
         <form>
         <input
