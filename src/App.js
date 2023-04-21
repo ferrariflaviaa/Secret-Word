@@ -1,5 +1,5 @@
 /* eslint-disable no-mixed-operators */
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import { StartScreen } from './Components/StartScreen'
 import { wordsList } from './Data/words'
@@ -11,6 +11,8 @@ const stages = [
   { id: 2, name: 'game' },
   { id: 3, name: 'end' },
 ]
+
+const guessesQty = 3;
 
 function App() {
   const [gameStage, setGameStage] = useState(stages[0].name)
@@ -53,17 +55,15 @@ function App() {
 
   //process the letter input
   const verifyLetter = (letter) => {
-    const normalizedLetter = letter.toString().toLowerCase();
+    const normalizedLetter = letter.toString().toLowerCase()
 
     //check if letter has already been utilized
     if (
-      guessedLetters && guessedLetters.includes(normalizedLetter) ||
-      wrongLetters && wrongLetters.includes(normalizedLetter)
+      (guessedLetters && guessedLetters.includes(normalizedLetter)) ||
+      (wrongLetters && wrongLetters.includes(normalizedLetter))
     ) {
-      return;
+      return
     }
-    
-    
 
     //push guessed letter or remove a chance
     if (letters && letters.includes(normalizedLetter)) {
@@ -72,21 +72,37 @@ function App() {
         letter,
       ])
     } else {
-      console.log("erro")
+      console.log('erro')
       setWrongLetters((actualWrongLetters) => [
         ...actualWrongLetters,
         normalizedLetter,
-      ]);
+      ])
 
-      setGuesses((actualGuesses) => actualGuesses - 1);
+      setGuesses((actualGuesses) => actualGuesses - 1)
     }
-    
   }
 
   //restarts the game
   const retry = () => {
+    setScore(0)
+    setGuesses(guessesQty)
     setGameStage(stages[0].name)
   }
+
+  //clear letters state
+  const clearLettersStates = () => {
+    setGuessedLetters([])
+    setWrongLetters([])
+  }
+
+  //check if guesses ended
+  useEffect(() => {
+    if (guesses === 0) {
+      //game over and reset all states
+      clearLettersStates()
+      setGameStage(stages[2].name)
+    }
+  }, [guesses])
 
   return (
     <div className="App">
